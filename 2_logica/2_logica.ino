@@ -177,12 +177,5 @@ void initAtaque()
 
 bool initMicroSD()
 {
-  if (!SD.begin(CS_PIN))
-  {
-    return false;
-  }
-  else
-  {
-    return true;
-  }
+  return SD.begin(CS_PIN);
 }
