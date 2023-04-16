@@ -90,7 +90,7 @@ void initAtaque()
         // Comandos implementados:
         if (linea.startsWith("STRING "))
         {
-          Keyboard.print(linea.substring(7));
+          printKey(linea.substring(7));
         }
 
         else if (linea.equals("ENTER"))
@@ -124,7 +124,7 @@ void initAtaque()
           {
             linea = linea.substring(4);
           }
-          Keyboard.print(linea);
+          printKey(linea);
           Keyboard.releaseAll();
         }
 
@@ -157,6 +157,14 @@ void initAtaque()
           Keyboard.releaseAll();
         }
 
+        else if (linea.startsWith("CTRL ALT"))
+        {
+          Keyboard.press(KEY_LEFT_CTRL);
+          Keyboard.press(KEY_LEFT_ALT);
+          printKey(linea.substring(linea.lastIndexOf(" ") + 1));
+          Keyboard.releaseAll();
+        }
+
         else if (linea.equals("ESCAPE"))
         {
           Keyboard.press(KEY_ESC);
@@ -178,4 +186,18 @@ void initAtaque()
 bool initMicroSD()
 {
   return SD.begin(CS_PIN);
+}
+
+// Necesario para las máquinas virtuales
+void printKey(String texto)
+{
+  byte tiempo = 16;
+  
+  for (int i = 0; i < texto.length(); i++)
+  {
+    Keyboard.press(texto.charAt(i));
+    delay(tiempo);
+    Keyboard.release(texto.charAt(i));
+    delay(tiempo);
+  }
 }
